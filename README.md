@@ -2,10 +2,18 @@
 
 ![Platform Badge](https://img.shields.io/badge/Platform-Little%20Steps%2024%C3%977-indigo?style=for-the-badge)
 ![License](https://img.shields.io/badge/License-MIT-emerald?style=for-the-badge)
-![Status](https://img.shields.io/badge/Status-Production%20Ready-blue?style=for-the-badge)
-![Stack](https://img.shields.io/badge/Tech%20Stack-HTML5%20%7C%20Vanilla%20CSS%20%7C%20JavaScript%20%7C%20Node.js%20Express-orange?style=for-the-badge)
+![Status](https://img.shields.io/badge/Status-Live%20%26%20Production%20Ready-blue?style=for-the-badge)
+![GitHub Pages](https://img.shields.io/badge/Live%20Demo-GitHub%20Pages-success?style=for-the-badge)
 
 > **A centralized digital platform connecting working parents with verified childcare centers and caregivers offering 24×7 daycare, night crèches, and emergency babysitting services.**
+
+---
+
+## 🌐 Live URLs & Deployment
+
+- 🚀 **Live Web Application (GitHub Pages):** [https://sadhna1118.github.io/Little-Steps-Trusted-24-7-/](https://sadhna1118.github.io/Little-Steps-Trusted-24-7-/)
+- 💻 **GitHub Repository:** [https://github.com/sadhna1118/Little-Steps-Trusted-24-7-](https://github.com/sadhna1118/Little-Steps-Trusted-24-7-)
+- ⚡ **Local Dev Server:** `http://localhost:3000`
 
 ---
 
@@ -52,6 +60,8 @@ Little step trusted/
 │   ├── PRD.md                  # Comprehensive Product Requirements Document
 │   ├── TECHNICAL_DOCUMENTATION.md  # Architecture, Data Models, REST APIs & Security
 │   └── USER_GUIDE.md           # Operational manual for Parents, Providers & Admins
+├── .github/workflows/
+│   └── deploy.yml              # Automatic GitHub Pages CI/CD deployment
 ├── server.js                   # Node.js + Express REST API backend server
 ├── package.json                # Project dependencies & scripts
 └── README.md                   # Project overview & documentation index
@@ -61,24 +71,22 @@ Little step trusted/
 
 ## 🚀 Quick Start Guide
 
-### Option 1: Run with Node.js Express Server
+### Option 1: Live on Browser
+Open the live hosted URL: [https://sadhna1118.github.io/Little-Steps-Trusted-24-7-/](https://sadhna1118.github.io/Little-Steps-Trusted-24-7-/)
+
+### Option 2: Run with Node.js Express Server
 ```bash
-# 1. Install dependencies
+# 1. Clone repository
+git clone https://github.com/sadhna1118/Little-Steps-Trusted-24-7-.git
+cd Little-Steps-Trusted-24-7-
+
+# 2. Install dependencies
 npm install
 
-# 2. Start the server
+# 3. Start the server
 npm start
 ```
 Then open your browser and navigate to: **`http://localhost:3000`**
-
-### Option 2: Standalone Browser Launch
-Simply double-click or open `index.html` directly in any modern web browser (Google Chrome, Microsoft Edge, Safari, Firefox). All reactive features, state persistence, and role switching work standalone via LocalStorage!
-
----
-
-## 🌐 Live Public Access
-- **Public Tunnel URL:** `https://little-steps-childcare.loca.lt`
-- **Local Dev Server:** `http://localhost:3000`
 
 ---
 
