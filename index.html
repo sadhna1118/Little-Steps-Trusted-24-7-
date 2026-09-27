@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Little Steps – Trusted 24×7 Childcare & Daycare Platform</title>
+  <meta name="description" content="India's leading verified 24x7 digital childcare platform connecting working parents with trusted, round-the-clock daycare centers, night creches, and verified pediatric caregivers.">
+  <meta name="keywords" content="24x7 daycare, night crèche, verified childcare, infant care, babysitting, working parents, Bangalore, Mumbai, Pune">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧸</text></svg>">
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/views.css">
+</head>
+<body>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container"></div>
+
+  <!-- Global Header & Sticky Navigation -->
+  <nav class="navbar">
+    <div class="container navbar-container">
+      <!-- Brand Logo -->
+      <a href="javascript:void(0)" class="brand-logo" onclick="App.showView('discovery')">
+        <div class="brand-icon">🧸</div>
+        <div>
+          <span>Little Steps</span>
+          <span class="brand-badge">24×7 Certified</span>
+        </div>
+      </a>
+
+      <!-- Persona Role Switcher -->
+      <div class="role-switcher-container">
+        <button class="role-pill-btn active" data-role="parent" title="Switch to Working Parent Persona">
+          <span>👤</span> Parent
+        </button>
+        <button class="role-pill-btn" data-role="provider" title="Switch to Daycare Center Portal">
+          <span>🏢</span> Provider
+        </button>
+        <button class="role-pill-btn" data-role="admin" title="Switch to Super Admin Safety Hub">
+          <span>🛡️</span> Admin
+        </button>
+      </div>
+
+      <!-- Navigation Links -->
+      <ul class="nav-links">
+        <li><a href="javascript:void(0)" class="nav-link active" data-view="discovery" onclick="App.showView('discovery')">Explore Daycares</a></li>
+        <li id="nav-parent-dashboard"><a href="javascript:void(0)" class="nav-link" data-view="parent-dashboard" onclick="App.showView('parent-dashboard'); ParentModule.renderParentDashboard();">Parent Dashboard</a></li>
+        <li><a href="javascript:void(0)" class="nav-link" data-view="provider-portal" onclick="App.showView('provider-portal'); ProviderModule.renderProviderPortal();">Provider Portal</a></li>
+        <li><a href="javascript:void(0)" class="nav-link" data-view="admin-portal" onclick="App.showView('admin-portal'); AdminModule.renderAdminPortal();">Safety Hub</a></li>
+      </ul>
+
+      <!-- Action Controls -->
+      <div class="flex items-center gap-3">
+        <button class="notif-bell-btn" onclick="App.toggleNotificationDrawer()" title="View Notifications">
+          🔔
+          <span class="notif-badge" id="nav-notif-badge">3</span>
+        </button>
+        <button class="btn btn-primary btn-sm" onclick="ParentModule.resetFilters(); App.showView('discovery');">
+          ⚡ Book 24×7 Slot
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- =========================================================================
+       VIEW 1: DISCOVERY & EXPLORE DAYCARES (PARENT LANDING)
+       ========================================================================= -->
+  <main id="discovery-view">
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="container">
+        <div class="hero-content">
+          <div class="hero-badge">
+            <span class="live-dot"></span> 100% Police-Verified Caregivers • 24×7 Pediatric Nurse Coverage
+          </div>
+          <h1 class="hero-title">
+            Trusted <span>24×7 Childcare</span> For Working Parents
+          </h1>
+          <p class="hero-subtitle">
+            Reliable, safe, and round-the-clock crèches with transparent availability, soundproof sleep suites, and live parent app updates.
+          </p>
+
+          <!-- Smart Search Widget -->
+          <div class="hero-search-box">
+            <div class="search-field-group">
+              <span class="search-field-label">📍 City / Tech Hub</span>
+              <select class="search-field-input" id="city-select">
+                <option value="All Cities">All Tech Hubs</option>
+                <option value="Bengaluru">Bengaluru (Indiranagar, Whitefield)</option>
+                <option value="Mumbai">Mumbai (Powai, BKC)</option>
+                <option value="Pune">Pune (Hinjawadi, Magarpatta)</option>
+                <option value="Delhi-NCR">Delhi-NCR (Gurugram Cyber City)</option>
+                <option value="Hyderabad">Hyderabad (Gachibowli, Hitec City)</option>
+              </select>
+            </div>
+
+            <div class="search-field-group">
+              <span class="search-field-label">👶 Age Group</span>
+              <select class="search-field-input" id="filter-age-group">
+                <option value="all">All Ages (0 - 10 yrs)</option>
+                <option value="Infant">Infant (0 - 1 yr)</option>
+                <option value="Toddler">Toddler (1 - 3 yrs)</option>
+                <option value="Preschool">Preschool (3 - 5 yrs)</option>
+                <option value="After School">After School (6 - 10 yrs)</option>
+              </select>
+            </div>
+
+            <div class="search-field-group">
+              <span class="search-field-label">🔍 Search Name / Landmark</span>
+              <input type="text" class="search-field-input" id="search-input" placeholder="e.g. Little Blooms, Powai...">
+            </div>
+
+            <button class="btn btn-primary btn-lg" onclick="ParentModule.renderDaycaresList()">
+              Search ➔
+            </button>
+          </div>
+
+          <!-- Quick Toggle Chips -->
+          <div class="hero-quick-filters">
+            <label class="filter-pill-toggle">
+              <input type="checkbox" id="filter-24x7" style="display:none;" onchange="this.parentElement.classList.toggle('active', this.checked)">
+              🌙 24×7 Round-the-Clock
+            </label>
+            <label class="filter-pill-toggle">
+              <input type="checkbox" id="filter-night" style="display:none;" onchange="this.parentElement.classList.toggle('active', this.checked)">
+              ⭐ Night Shift Care (6 PM - 8 AM)
+            </label>
+            <label class="filter-pill-toggle">
+              <input type="checkbox" id="filter-emergency" style="display:none;" onchange="this.parentElement.classList.toggle('active', this.checked)">
+              🚨 Emergency Drop-in Support
+            </label>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Discovery Section -->
+    <section class="container discovery-layout">
+      <!-- Left Sidebar Filters -->
+      <aside class="filter-sidebar">
+        <div class="filter-title">
+          <span>🎯 Filter Centers</span>
+          <span class="filter-reset-link" onclick="ParentModule.resetFilters()">Reset</span>
+        </div>
+
+        <div class="filter-section">
+          <div class="filter-section-title">Maximum Hourly Budget</div>
+          <input type="range" id="filter-price-range" min="100" max="400" step="20" value="350" style="width: 100%; accent-color: var(--primary-600);">
+          <div class="flex justify-between" style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 4px;">
+            <span>₹100/hr</span>
+            <span id="filter-price-val" style="font-weight: 700; color: var(--primary-700);">₹350/hr</span>
+            <span>₹400/hr</span>
+          </div>
+        </div>
+
+        <div class="filter-section">
+          <div class="filter-section-title">Safety & Verification</div>
+          <label class="filter-checkbox-label">
+            <input type="checkbox" checked disabled> 🛡️ 100% Police Verified Staff
+          </label>
+          <label class="filter-checkbox-label">
+            <input type="checkbox" checked disabled> 📹 Live CCTV App Stream
+          </label>
+          <label class="filter-checkbox-label">
+            <input type="checkbox" checked disabled> 👩‍⚕️ Pediatric Nurse On-Duty
+          </label>
+          <label class="filter-checkbox-label">
+            <input type="checkbox" checked disabled> 🛏️ Soundproof Sleep Pods
+          </label>
+        </div>
+
+        <div class="filter-section">
+          <div class="filter-section-title">Childcare Plans</div>
+          <div style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">
+            • <strong>Hourly Flexi:</strong> ₹150 - ₹200/hr<br>
+            • <strong>Night Care:</strong> ₹200 - ₹260/hr<br>
+            • <strong>Full Day:</strong> ₹1,200 - ₹1,600/day<br>
+            • <strong>Monthly:</strong> ₹16,000 - ₹25,000/mo
+          </div>
+        </div>
+
+        <div style="background: var(--bg-subtle); padding: 1rem; border-radius: var(--radius-sm); text-align: center;">
+          <div style="font-size: 0.8rem; font-weight: 700; color: var(--text-main); margin-bottom: 4px;">Need Immediate Night Care?</div>
+          <p style="font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 8px;">Our pediatric triage helpline is open 24×7.</p>
+          <a href="tel:18002475437" class="btn btn-outline btn-block btn-sm">📞 1800-247-KIDS</a>
+        </div>
+      </aside>
+
+      <!-- Right Daycares Grid -->
+      <section>
+        <div class="flex justify-between items-center" style="margin-bottom: 1.5rem;">
+          <div>
+            <h2 style="font-size: 1.5rem; margin-bottom: 2px;">Verified Daycares & Night Crèches</h2>
+            <p style="font-size: 0.85rem; color: var(--text-secondary);" id="results-count">Loading verified centers...</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-6" id="daycares-grid">
+          <!-- Dynamically populated by ParentModule -->
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <!-- =========================================================================
+       VIEW 2: DAYCARE DETAIL PAGE
+       ========================================================================= -->
+  <section id="daycare-detail-view" style="display: none;">
+    <!-- Rendered dynamically by ParentModule.renderDaycareDetail() -->
+  </section>
+
+  <!-- =========================================================================
+       VIEW 3: PARENT DASHBOARD & LIVE FEED
+       ========================================================================= -->
+  <section id="parent-dashboard-view" style="display: none;">
+    <!-- Rendered dynamically by ParentModule.renderParentDashboard() -->
+  </section>
+
+  <!-- =========================================================================
+       VIEW 4: CHILDCARE PROVIDER COMMAND CENTER
+       ========================================================================= -->
+  <section id="provider-portal-view" style="display: none;">
+    <!-- Rendered dynamically by ProviderModule.renderProviderPortal() -->
+  </section>
+
+  <!-- =========================================================================
+       VIEW 5: ADMIN SAFETY & OPERATIONS HUB
+       ========================================================================= -->
+  <section id="admin-portal-view" style="display: none;">
+    <!-- Rendered dynamically by AdminModule.renderAdminPortal() -->
+  </section>
+
+  <!-- =========================================================================
+       INTERACTIVE MODALS
+       ========================================================================= -->
+
+  <!-- 1. MULTI-STEP BOOKING MODAL -->
+  <div class="modal-overlay" id="booking-modal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <div>
+          <h3 class="modal-title">Book Childcare Slot</h3>
+          <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 2px;">
+            <span id="booking-daycare-name">Little Blooms 24×7 Crèche</span> • <span id="booking-daycare-city">Bengaluru</span>
+          </p>
+        </div>
+        <button class="modal-close-btn">&times;</button>
+      </div>
+
+      <form id="booking-form">
+        <div class="modal-body">
+          <!-- Plan Selector Tabs -->
+          <div class="form-group">
+            <label class="form-label">Select Childcare Plan</label>
+            <div class="grid grid-cols-4 gap-2">
+              <button type="button" class="btn btn-secondary btn-sm plan-selector-btn active" data-plan="hourly">Hourly</button>
+              <button type="button" class="btn btn-secondary btn-sm plan-selector-btn" data-plan="nightShift">🌙 Night Care</button>
+              <button type="button" class="btn btn-secondary btn-sm plan-selector-btn" data-plan="daily">Full Day</button>
+              <button type="button" class="btn btn-secondary btn-sm plan-selector-btn" data-plan="monthly">Monthly</button>
+            </div>
+          </div>
+
+          <!-- Child Profile Details -->
+          <div class="grid grid-cols-2 gap-3">
+            <div class="form-group">
+              <label class="form-label">Child's Full Name *</label>
+              <input type="text" class="form-input" id="book-child-name" value="Aarav Sharma" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Age Group *</label>
+              <select class="form-select" id="book-child-age">
+                <option value="Infant (0-1 yr)">Infant (0-1 yr)</option>
+                <option value="Toddler (1-3 yrs)" selected>Toddler (1-3 yrs)</option>
+                <option value="Preschool (3-5 yrs)">Preschool (3-5 yrs)</option>
+                <option value="After School (6-10 yrs)">After School (6-10 yrs)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Allergies & Dietary / Sleep Instructions</label>
+            <input type="text" class="form-input" id="book-allergies" placeholder="e.g. Lactose intolerant, uses bedtime blanket..." value="Mild Peanut Allergy">
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div class="form-group">
+              <label class="form-label">Emergency Phone Contact *</label>
+              <input type="tel" class="form-input" id="book-emergency-contact" value="+91 98765 43211" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Start Date *</label>
+              <input type="date" class="form-input" id="book-start-date" required>
+            </div>
+          </div>
+
+          <!-- Dynamic Fields based on plan -->
+          <div id="booking-hourly-fields">
+            <div class="grid grid-cols-2 gap-3">
+              <div class="form-group">
+                <label class="form-label">Start Time</label>
+                <input type="time" class="form-input" id="book-start-time" value="18:30">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Duration (Hours)</label>
+                <input type="number" class="form-input" id="booking-hours-count" min="2" max="24" value="4" oninput="ParentModule.calculateBookingCost()">
+              </div>
+            </div>
+          </div>
+
+          <div id="booking-daily-fields" style="display: none;">
+            <div class="form-group">
+              <label class="form-label">Number of Days</label>
+              <input type="number" class="form-input" id="booking-days-count" min="1" max="30" value="1" oninput="ParentModule.calculateBookingCost()">
+            </div>
+          </div>
+
+          <div id="booking-monthly-fields" style="display: none;">
+            <div style="background: var(--bg-subtle); padding: 0.85rem; border-radius: var(--radius-sm); font-size: 0.85rem; color: var(--text-secondary);">
+              ✓ Guaranteed reserved slot for 30 consecutive days including 2 emergency overnight stays.
+            </div>
+          </div>
+
+          <!-- Live Price Breakdown Box -->
+          <div style="background: var(--primary-50); border: 1px solid var(--primary-200); border-radius: var(--radius-sm); padding: 1rem; margin-top: 1rem; display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <div style="font-size: 0.78rem; text-transform: uppercase; font-weight: 700; color: var(--primary-700);">Estimated Fee</div>
+              <div style="font-size: 0.82rem; color: var(--text-secondary);" id="booking-summary-breakdown">Calculated dynamically</div>
+            </div>
+            <div style="font-size: 1.6rem; font-weight: 800; color: var(--primary-700);" id="booking-summary-total">₹0</div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary modal-cancel-btn">Cancel</button>
+          <button type="submit" class="btn btn-primary">Confirm & Send Request ➔</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 2. DIGITAL QR PASS MODAL -->
+  <div class="modal-overlay" id="qr-pass-modal">
+    <div class="modal-dialog" style="max-width: 440px;">
+      <div class="modal-header">
+        <h3 class="modal-title">Child Safety Digital Pass</h3>
+        <button class="modal-close-btn">&times;</button>
+      </div>
+      <div class="modal-body" style="text-align: center;">
+        <div class="qr-pass-card">
+          <div style="font-size: 0.85rem; opacity: 0.85; text-transform: uppercase; letter-spacing: 0.05em;">LITTLE STEPS SECURE TOKEN</div>
+          <h2 style="font-size: 1.5rem; margin: 4px 0;" id="qr-pass-child">Aarav Sharma</h2>
+          <div style="font-size: 0.85rem; color: #A7F3D0;" id="qr-pass-center">Little Blooms 24×7 Crèche</div>
+
+          <div class="qr-box" id="qr-code-canvas"></div>
+
+          <div style="font-size: 0.82rem; opacity: 0.9;" id="qr-pass-plan">24×7 Night Shift Care</div>
+          <div style="font-size: 0.75rem; opacity: 0.75;" id="qr-pass-time">2026-09-28 • 18:30 to 08:00</div>
+          <div style="font-size: 0.7rem; margin-top: 8px; font-family: monospace; background: rgba(0,0,0,0.3); padding: 4px 8px; border-radius: 4px;" id="qr-pass-ref">LS-BK-9901</div>
+        </div>
+        <p style="font-size: 0.78rem; color: var(--text-secondary); margin-top: 1rem;">
+          Scan this at the daycare biometric gate upon drop-off and pickup.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. LIVE ACTIVITY LOGGER MODAL (PROVIDER) -->
+  <div class="modal-overlay" id="live-log-modal">
+    <div class="modal-dialog" style="max-width: 480px;">
+      <div class="modal-header">
+        <div>
+          <h3 class="modal-title">Broadcast Child Update</h3>
+          <p style="font-size: 0.82rem; color: var(--text-secondary);" id="log-modal-child-name">Child update</p>
+        </div>
+        <button class="modal-close-btn">&times;</button>
+      </div>
+      <form id="live-log-form">
+        <input type="hidden" id="log-modal-booking-id">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label">Activity Event Type *</label>
+            <select class="form-select" id="log-event-type">
+              <option value="🥣 Meal Consumed">🥣 Meal Consumed (Snack/Dinner)</option>
+              <option value="😴 Nap Started">😴 Nap Started (Sleep Pod)</option>
+              <option value="🎨 Learning & Play">🎨 Learning & Sensory Play</option>
+              <option value="🌡️ Health & Temp Log">🌡️ Health & Temperature Check</option>
+              <option value="🌙 Bedtime Story">🌙 Bedtime Story Time</option>
+              <option value="🧸 Diaper / Hygiene">🧸 Diaper Change / Hygiene</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Note for Parents *</label>
+            <textarea class="form-textarea" id="log-event-note" rows="3" placeholder="e.g. Aarav had wholewheat oats and warm milk. Temperature 98.4°F normal. Resting happily." required></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary modal-cancel-btn">Cancel</button>
+          <button type="submit" class="btn btn-primary">📡 Broadcast to Parent App</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 4. ADD CAREGIVER MODAL (PROVIDER) -->
+  <div class="modal-overlay" id="add-caregiver-modal">
+    <div class="modal-dialog" style="max-width: 520px;">
+      <div class="modal-header">
+        <h3 class="modal-title">Onboard Caregiver / Nurse</h3>
+        <button class="modal-close-btn">&times;</button>
+      </div>
+      <form id="add-caregiver-form">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label">Full Name *</label>
+            <input type="text" class="form-input" id="cg-input-name" placeholder="e.g. Shalini Roy" required>
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div class="form-group">
+              <label class="form-label">Role *</label>
+              <input type="text" class="form-input" id="cg-input-role" placeholder="e.g. Pediatric Caregiver" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Experience *</label>
+              <input type="text" class="form-input" id="cg-input-exp" placeholder="e.g. 6 Years" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Qualifications & Certifications *</label>
+            <input type="text" class="form-input" id="cg-input-qual" placeholder="e.g. B.Sc Nursing, Pediatric CPR Certified" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Assigned Shift *</label>
+            <select class="form-select" id="cg-input-shift">
+              <option value="Day Shift (8 AM - 4 PM)">Day Shift (8 AM - 4 PM)</option>
+              <option value="Evening Shift (4 PM - 11 PM)">Evening Shift (4 PM - 11 PM)</option>
+              <option value="Night Care Shift (6 PM - 8 AM)">Night Care Shift (6 PM - 8 AM)</option>
+              <option value="24x7 Emergency Rotation">24x7 Emergency Rotation</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary modal-cancel-btn">Cancel</button>
+          <button type="submit" class="btn btn-success">+ Complete Onboarding</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 5. EDIT CENTER SETTINGS & RATES (PROVIDER) -->
+  <div class="modal-overlay" id="edit-daycare-modal">
+    <div class="modal-dialog" style="max-width: 520px;">
+      <div class="modal-header">
+        <h3 class="modal-title">Center Operations & Pricing</h3>
+        <button class="modal-close-btn">&times;</button>
+      </div>
+      <form id="edit-daycare-form">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label">Daycare Center Name *</label>
+            <input type="text" class="form-input" id="edit-dc-name" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Total Child Capacity *</label>
+            <input type="number" class="form-input" id="edit-dc-capacity" min="5" max="100" required>
+          </div>
+          <div class="grid grid-cols-3 gap-2">
+            <div class="form-group">
+              <label class="form-label">Hourly (₹)</label>
+              <input type="number" class="form-input" id="edit-dc-hourly" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Night Care (₹)</label>
+              <input type="number" class="form-input" id="edit-dc-night" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Monthly (₹)</label>
+              <input type="number" class="form-input" id="edit-dc-monthly" required>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary modal-cancel-btn">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 6. DOCUMENT INSPECTION MODAL (ADMIN) -->
+  <div class="modal-overlay" id="doc-inspection-modal">
+    <div class="modal-dialog" style="max-width: 600px;">
+      <div class="modal-header">
+        <div>
+          <h3 class="modal-title">Document Inspection</h3>
+          <p style="font-size: 0.82rem; color: var(--text-secondary);" id="doc-modal-center-name">Bloomfield Montessori</p>
+        </div>
+        <button class="modal-close-btn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="doc-modal-target-id">
+        <div style="background: var(--bg-subtle); padding: 0.75rem 1rem; border-radius: var(--radius-sm); margin-bottom: 1.25rem; font-size: 0.85rem;">
+          License Ref: <code id="doc-modal-license-no">KA-BBMP-CR-2024-PEND-44</code> • <span id="doc-modal-address">HSR Layout, Bengaluru</span>
+        </div>
+
+        <div class="doc-preview-box">
+          <div class="doc-info">
+            <div class="doc-icon">📄</div>
+            <div>
+              <div style="font-weight: 700; font-size: 0.9rem;">State Childcare Authority Operating Permit</div>
+              <div style="font-size: 0.75rem; color: var(--text-muted);">PDF • 2.4 MB • Verified Digital Signature</div>
+            </div>
+          </div>
+          <span class="badge badge-verified">✓ Authentic</span>
+        </div>
+
+        <div class="doc-preview-box">
+          <div class="doc-info">
+            <div class="doc-icon">🔥</div>
+            <div>
+              <div style="font-weight: 700; font-size: 0.9rem;">Fire Safety & Building NOC</div>
+              <div style="font-size: 0.75rem; color: var(--text-muted);">PDF • 1.8 MB • Valid till 2027</div>
+            </div>
+          </div>
+          <span class="badge badge-verified">✓ Authentic</span>
+        </div>
+
+        <div class="doc-preview-box">
+          <div class="doc-info">
+            <div class="doc-icon">👮</div>
+            <div>
+              <div style="font-weight: 700; font-size: 0.9rem;">Staff Police Background Check Report</div>
+              <div style="font-size: 0.75rem; color: var(--text-muted);">Biometric identity clearance completed</div>
+            </div>
+          </div>
+          <span class="badge badge-verified">✓ Cleared</span>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary modal-cancel-btn">Close</button>
+        <button type="button" class="btn btn-danger" onclick="AdminModule.rejectCenter(document.getElementById('doc-modal-target-id').value); document.getElementById('doc-inspection-modal').classList.remove('active');">Reject</button>
+        <button type="button" class="btn btn-success" onclick="AdminModule.approveCenter(document.getElementById('doc-modal-target-id').value); document.getElementById('doc-inspection-modal').classList.remove('active');">✓ Approve Certification</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. WRITE REVIEW MODAL -->
+  <div class="modal-overlay" id="review-modal">
+    <div class="modal-dialog" style="max-width: 500px;">
+      <div class="modal-header">
+        <h3 class="modal-title">Share Your Parent Experience</h3>
+        <button class="modal-close-btn">&times;</button>
+      </div>
+      <form id="review-form">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label">Your Name *</label>
+            <input type="text" class="form-input" id="rev-author" value="Sadhna Sharma" required>
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div class="form-group">
+              <label class="form-label">Rating *</label>
+              <select class="form-select" id="rev-rating">
+                <option value="5">★★★★★ (5/5 Exceptional)</option>
+                <option value="4">★★★★☆ (4/5 Great)</option>
+                <option value="3">★★★☆☆ (3/5 Average)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Child Age Group</label>
+              <input type="text" class="form-input" id="rev-child-age" value="Toddler (2.5 yrs)">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Your Review & Feedback *</label>
+            <textarea class="form-textarea" id="rev-comment" rows="4" placeholder="Share how the 24x7 staff cared for your child, cleanliness, meals, night routines..." required></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary modal-cancel-btn">Cancel</button>
+          <button type="submit" class="btn btn-primary">Publish Review</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 8. NOTIFICATIONS DRAWER MODAL -->
+  <div class="modal-overlay" id="notifications-modal">
+    <div class="modal-dialog" style="max-width: 480px;">
+      <div class="modal-header">
+        <h3 class="modal-title">Platform Notifications</h3>
+        <button class="modal-close-btn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div id="notifications-list"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary btn-sm modal-cancel-btn">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer style="background: #0F172A; color: #94A3B8; padding: 3.5rem 0 2rem 0; margin-top: auto; border-top: 1px solid #1E293B;">
+    <div class="container">
+      <div class="grid grid-cols-4 gap-8" style="margin-bottom: 2.5rem;">
+        <div>
+          <div class="brand-logo" style="color: #FFFFFF; margin-bottom: 1rem;">
+            <div class="brand-icon">🧸</div>
+            <span>Little Steps</span>
+          </div>
+          <p style="font-size: 0.85rem; line-height: 1.6; margin-bottom: 1rem;">
+            India's premier 24×7 trusted childcare network. Enabling working parents to thrive with verified caregivers and transparent daycare availability.
+          </p>
+          <div style="font-size: 0.8rem; color: #64748B;">© 2026 Little Steps Technologies Inc.</div>
+        </div>
+
+        <div>
+          <h4 style="color: #FFFFFF; font-size: 1rem; margin-bottom: 1rem;">For Parents</h4>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.85rem;">
+            <li><a href="javascript:void(0)" onclick="App.showView('discovery');" style="color: #94A3B8;">Search 24×7 Daycares</a></li>
+            <li><a href="javascript:void(0)" onclick="App.showView('parent-dashboard'); ParentModule.renderParentDashboard();" style="color: #94A3B8;">Live Child Activity Feed</a></li>
+            <li><a href="javascript:void(0)" onclick="App.showView('discovery');" style="color: #94A3B8;">Night Shift Subscriptions</a></li>
+            <li><a href="tel:18002475437" style="color: var(--coral-500); font-weight: 700;">Emergency Triage: 1800-247-KIDS</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 style="color: #FFFFFF; font-size: 1rem; margin-bottom: 1rem;">For Childcare Providers</h4>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.85rem;">
+            <li><a href="javascript:void(0)" onclick="App.switchRole('provider');" style="color: #94A3B8;">Provider Operations Portal</a></li>
+            <li><a href="javascript:void(0)" onclick="App.switchRole('provider');" style="color: #94A3B8;">Capacity & Slot Manager</a></li>
+            <li><a href="javascript:void(0)" onclick="App.switchRole('provider');" style="color: #94A3B8;">Caregiver Staff Registry</a></li>
+            <li><a href="javascript:void(0)" onclick="App.switchRole('provider');" style="color: #94A3B8;">Live Attendance Broadcast</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 style="color: #FFFFFF; font-size: 1rem; margin-bottom: 1rem;">Safety & Architecture</h4>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.85rem;">
+            <li><a href="javascript:void(0)" onclick="App.switchRole('admin');" style="color: #94A3B8;">Admin Safety Hub</a></li>
+            <li><a href="docs/TECHNICAL_DOCUMENTATION.md" target="_blank" style="color: #94A3B8;">Technical Documentation</a></li>
+            <li><a href="docs/PRD.md" target="_blank" style="color: #94A3B8;">Product Requirements (PRD)</a></li>
+            <li><a href="javascript:void(0)" onclick="App.resetToDefaultDemoData()" style="color: var(--primary-400);">Reset Demo State</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="border-top: 1px solid #1E293B; padding-top: 1.5rem; text-align: center; font-size: 0.8rem; color: #64748B;">
+        Little Steps – Trusted 24×7 Childcare Platform • Certified Child Safety & Biometric Protection
+      </div>
+    </div>
+  </footer>
+
+  <!-- Core JavaScript Libraries -->
+  <script src="js/data.js"></script>
+  <script src="js/state.js"></script>
+  <script src="js/parent.js"></script>
+  <script src="js/provider.js"></script>
+  <script src="js/admin.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
