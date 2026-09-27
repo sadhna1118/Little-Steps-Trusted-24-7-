@@ -1,0 +1,24 @@
+{
+  "name": "little-steps-childcare-platform",
+  "version": "1.0.0",
+  "description": "Little Steps - Trusted 24x7 Childcare & Daycare Platform",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2"
+  },
+  "keywords": [
+    "childcare",
+    "daycare",
+    "creche",
+    "24x7",
+    "verified-caregivers",
+    "babysitting"
+  ],
+  "author": "Little Steps Engineering Team",
+  "license": "MIT"
+}
